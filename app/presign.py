@@ -10,13 +10,13 @@ from response import success_response,fail_response
 
 
 
-def insert_presign(cursor, connection, presign_key, file_name, path, file_type):
+def insert_presign(cursor, connection, presign_key, file_name, file_path, file_type):
     try:
         insert_query = """
-        INSERT INTO presigns (presign_key, file_name, path, file_type, created_at) VALUES (%s, %s, %s, %s, %s)
+        INSERT INTO presigns (presign_key, file_name, file_path, file_type, created_at) VALUES (%s, %s, %s, %s, %s)
         """
         created_at = datetime.now()
-        presign_data_with_datetime = (presign_key, file_name, path, file_type, created_at)
+        presign_data_with_datetime = (presign_key, file_name, file_path, file_type, created_at)
         
         cursor.execute(insert_query, presign_data_with_datetime)
 
@@ -49,7 +49,7 @@ def is_valid_presign_key(cursor, presign_key):
     SELECT * FROM presigns WHERE presign_key = %s AND created_at >= %s AND created_at <= %s
     '''
 
-    cursor.execute(select_query, (presign_key, datetime.now() - timedelta(minutes=1), datetime.now()))
+    cursor.execute(select_query, (presign_key, datetime.now() - timedelta(minutes=5), datetime.now()))
     row = cursor.fetchone()
 
     if row:
@@ -60,21 +60,27 @@ def is_valid_presign_key(cursor, presign_key):
 
     
     
-def get_file_name_by_presign_key(cursor, presign_key):
-    select_query = 'SELECT file_name FROM presigns WHERE presign_key = %s'
+def get_file_info_by_presign_key(cursor, presign_key):
+    # select_query = 'SELECT file_name, file_path, file_type FROM presigns WHERE presign_key = %s'
+
+    select_query = '''
+    SELECT file_name, file_path, file_type FROM presigns WHERE presign_key = %s
+    '''
 
     try:
         cursor.execute(select_query, (presign_key,))
         result = cursor.fetchone()
 
         if result:
-            return result[0]
+            file_name, file_path, file_type = result
+            return {'file_name': file_name, 'file_path': file_path, 'file_type': file_type}
         else:
             return None
 
     except Exception as e:
         print(f"Error executing query: {e}")
         return None
+
     
 
 

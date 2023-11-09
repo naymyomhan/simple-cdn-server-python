@@ -31,7 +31,7 @@ def init_db(cursor):
     CREATE TABLE IF NOT EXISTS presigns (
         id INT AUTO_INCREMENT PRIMARY KEY,
         presign_key VARCHAR(255),
-        path VARCHAR(255),
+        file_path VARCHAR(255),
         file_name VARCHAR(255),
         file_type VARCHAR(255),
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP

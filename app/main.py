@@ -3,6 +3,7 @@
 import io
 import base64
 import os
+import secrets
 import time
 import re
 import uuid
@@ -21,7 +22,7 @@ from constants import ALLOWED_EXTENSIONS,AUDIO_EXTENSIONS,IMAGE_EXTENSIONS,VIDEO
 from image_upload import generate_random_filename, upload_and_save_image
 
 
-from presign import get_file_name_by_presign_key, is_valid_presign_key,insert_presign
+from presign import get_file_info_by_presign_key, is_valid_presign_key,insert_presign
 from response import success_response,fail_response
 from database import establish_connection, init_db, close_connection
 
@@ -29,19 +30,21 @@ from database import establish_connection, init_db, close_connection
 app = FastAPI()
 load_dotenv()
 
-# connection = establish_connection()
-# cursor = connection.cursor()
-# init_db(cursor)
-# close_connection(cursor,connection)
+connection = establish_connection()
+cursor = connection.cursor()
+init_db(cursor)
+close_connection(cursor,connection)
 
 
 #Secure
 api_key = APIKeyHeader(name="X-API-KEY")
 def verify_api_key(api_key: str = Depends(api_key)):
-    if api_key == os.environ.get('API_KEY'):
+    stored_api_key = os.environ.get('API_KEY')
+    if secrets.compare_digest(api_key, stored_api_key):
         return True
     else:
-        raise HTTPException(status_code=403, detail="API key is invalid")
+        raise HTTPException(status_code=403, detail="unauthorized")
+
 
 
 
@@ -61,11 +64,11 @@ async def presign(request: PresignRequest,verified: bool = Depends(verify_api_ke
 
             presign_key = str(uuid.uuid4())
             filename =generate_random_filename(datetime.now(),file_extension)
-            path = request.path
+            file_path = request.file_path
             file_type = check_file_type(file_extension)
 
             # Insert presign
-            response = insert_presign(cursor, connection, presign_key, filename, path, file_type)
+            response = insert_presign(cursor, connection, presign_key, filename, file_path, file_type)
 
             connection.commit()
             return response
@@ -80,13 +83,12 @@ async def presign(request: PresignRequest,verified: bool = Depends(verify_api_ke
 
 
 
-
-@app.post("/api/image/upload")
-async def upload_image(request: ImageUploadRequest,verified: bool = Depends(verify_api_key)):
+@app.post("/api/upload")
+async def upload_file(request: ImageUploadRequest,verified: bool = Depends(verify_api_key)):
     connection = establish_connection()
 
     try:
-        image_data = base64.b64decode(request.base64_data)
+        file_data = base64.b64decode(request.base64_data)
         presign_key = request.presign_key
 
         cursor = connection.cursor()
@@ -96,11 +98,24 @@ async def upload_image(request: ImageUploadRequest,verified: bool = Depends(veri
             return fail_response("Invalid presign key", 400)
         
         #Get file name using presign key
-        file_name=get_file_name_by_presign_key(cursor, presign_key)
-        if(file_name == None or file_name==""):
-            return fail_response("Invalid presign key",400)
+        file_info=get_file_info_by_presign_key(cursor, presign_key)
+        if not file_info:
+            return fail_response("Invalid presign info",400)
 
-        response_data = upload_and_save_image(image_data, file_name)
+        file_name = file_info['file_name']
+        file_path = file_info['file_path']
+        file_type = file_info['file_type']
+
+        if file_type == 'Image':
+            response_data = upload_and_save_image(file_data, file_path, file_name)
+        elif file_type == 'Video':
+            response_data={}
+        elif file_type == 'Audio':
+            response_data={}
+        else:
+            return fail_response("Something went wrong")
+
+        
         return success_response("Upload successful",response_data)
 
     except Exception as e:
@@ -111,25 +126,21 @@ async def upload_image(request: ImageUploadRequest,verified: bool = Depends(veri
 
 
 
-#protected template
-@app.get("/protected-resource")
-async def get_protected_resource(verified: bool = Depends(verify_api_key)):
-    return {"message": "This is a protected resource"}
-
-
-
-
-
-
 
 #view image
-@app.get("/images/{image_name}")
-async def get_image(image_name: str, verified: bool = Depends(verify_api_key)):
-    image_dir = "upload/original"
+@app.get("/coderverse/{path:path}/{image_name}")
+async def get_image(image_name: str,path:str,verified: bool = Depends(verify_api_key)):
+    print(path)
+    image_path = f"storage/{path}/{image_name}"
 
-    image_path = f"{image_dir}/{image_name}"
+    if not os.path.exists(image_path):
+        return fail_response("File not found",404)
 
     return FileResponse(image_path)
+
+
+
+
 
 if __name__ == "__main__":
     import uvicorn
