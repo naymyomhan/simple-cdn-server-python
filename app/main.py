@@ -15,11 +15,11 @@ from datetime import datetime,timedelta
 from fastapi.responses import FileResponse
 from fastapi.security import APIKeyHeader
 from dotenv import load_dotenv
-from helper import check_file_type
+from helper import checkFileType, ramdomFilename
 from request.image_upload_request import ImageUploadRequest
 from request.presign_request import PresignRequest
-from constants import ALLOWED_EXTENSIONS,AUDIO_EXTENSIONS,IMAGE_EXTENSIONS, STORAGE_PATH,VIDEO_EXTENSIONS
-from image_upload import generate_random_filename, upload_and_save_image
+from constants import ALLOWED_EXTENSIONS, STORAGE_PATH
+from uploader.image_uploader import uploadImage
 
 
 from presign import get_file_info_by_presign_key, is_valid_presign_key,insert_presign
@@ -63,9 +63,9 @@ async def presign(request: PresignRequest,verified: bool = Depends(verify_api_ke
             cursor = connection.cursor()
 
             presign_key = str(uuid.uuid4())
-            filename =generate_random_filename(datetime.now(),file_extension)
+            filename =ramdomFilename(datetime.now(),file_extension)
             file_path = request.file_path
-            file_type = check_file_type(file_extension)
+            file_type = checkFileType(file_extension)
 
             # Insert presign
             response = insert_presign(cursor, connection, presign_key, filename, file_path, file_type)
@@ -107,7 +107,7 @@ async def upload_file(request: ImageUploadRequest,verified: bool = Depends(verif
         file_type = file_info['file_type']
 
         if file_type == 'Image':
-            response_data = upload_and_save_image(file_data, file_path, file_name)
+            response_data = uploadImage(file_data, file_path, file_name)
         elif file_type == 'Video':
             response_data={}
         elif file_type == 'Audio':
