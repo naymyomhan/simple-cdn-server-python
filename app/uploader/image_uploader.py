@@ -2,7 +2,7 @@ import os
 import uuid
 from PIL import Image
 from dotenv import load_dotenv
-from helper import create_dirs_if_not_exists
+from helper import createDirsIfNotExists
 
 from constants import IMAGE_PATH, STORAGE_PATH
 load_dotenv()
@@ -35,7 +35,7 @@ def uploadImage(image_data,file_path,file_name):
     compressed_upload_path = f"{current_upload_path}/Compressed"
     thumbnail_upload_path = f"{current_upload_path}/Thumbnail"
 
-    create_dirs_if_not_exists(STORAGE_PATH, IMAGE_PATH,current_upload_path,original_upload_path,compressed_upload_path,thumbnail_upload_path)
+    createDirsIfNotExists(STORAGE_PATH, IMAGE_PATH,current_upload_path,original_upload_path,compressed_upload_path,thumbnail_upload_path)
 
     original_path = os.path.join(original_upload_path, file_name)
     compressed_path = os.path.join(compressed_upload_path, file_name)

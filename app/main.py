@@ -8,7 +8,7 @@ import time
 import re
 import uuid
 import json
-from fastapi import Body, FastAPI, HTTPException,Depends
+from fastapi import Body, FastAPI, HTTPException,Depends, File, UploadFile, Header
 from pydantic import BaseModel
 from PIL import Image
 from datetime import datetime,timedelta
@@ -122,6 +122,8 @@ async def upload_file(request: ImageUploadRequest,verified: bool = Depends(verif
         raise HTTPException(status_code=400, detail=f"Error {str(e)}")
     finally:
         close_connection(cursor, connection)
+
+
 
 
 

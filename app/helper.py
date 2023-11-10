@@ -15,7 +15,7 @@ def checkFileType(extension):
     
 
 #Create Folders 
-def create_dirs_if_not_exists(*dirs):
+def createDirsIfNotExists(*dirs):
     for dir_path in dirs:
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
