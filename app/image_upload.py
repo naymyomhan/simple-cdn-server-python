@@ -2,11 +2,12 @@ import os
 import uuid
 from PIL import Image
 from dotenv import load_dotenv
+
+from constants import IMAGE_PATH, STORAGE_PATH
 load_dotenv()
 
 
-STORAGE_PATH = os.environ.get('STORAGE_PATH')
-IMAGE_PATH = f"{STORAGE_PATH}/Image"
+
 
 #Create Folders 
 def create_dirs_if_not_exists(*dirs):

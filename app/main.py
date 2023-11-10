@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 from helper import check_file_type
 from request.image_upload_request import ImageUploadRequest
 from request.presign_request import PresignRequest
-from constants import ALLOWED_EXTENSIONS,AUDIO_EXTENSIONS,IMAGE_EXTENSIONS,VIDEO_EXTENSIONS
+from constants import ALLOWED_EXTENSIONS,AUDIO_EXTENSIONS,IMAGE_EXTENSIONS, STORAGE_PATH,VIDEO_EXTENSIONS
 from image_upload import generate_random_filename, upload_and_save_image
 
 
@@ -30,10 +30,10 @@ from database import establish_connection, init_db, close_connection
 app = FastAPI()
 load_dotenv()
 
-connection = establish_connection()
-cursor = connection.cursor()
-init_db(cursor)
-close_connection(cursor,connection)
+# connection = establish_connection()
+# cursor = connection.cursor()
+# init_db(cursor)
+# close_connection(cursor,connection)
 
 
 #Secure
@@ -131,7 +131,7 @@ async def upload_file(request: ImageUploadRequest,verified: bool = Depends(verif
 @app.get("/coderverse/{path:path}/{image_name}")
 async def get_image(image_name: str,path:str,verified: bool = Depends(verify_api_key)):
     print(path)
-    image_path = f"storage/{path}/{image_name}"
+    image_path = f"{STORAGE_PATH}/{path}/{image_name}"
 
     if not os.path.exists(image_path):
         return fail_response("File not found",404)
