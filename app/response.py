@@ -1,20 +1,22 @@
-from fastapi import FastAPI
-from fastapi.responses import JSONResponse
+import json
+from flask import Flask, jsonify
 
-app = FastAPI()
+app = Flask(__name__)
 
-def success_response(message,data):
+def success_response(message, data):
     response = {
         "success": True,
         "message": message,
         "data": data
     }
-    return JSONResponse(content=response, status_code=200)
+    return json.dumps(response, default=str).lower(), 200, {'Content-Type': 'application/json'}
 
-def fail_response(message,code=500):
+def fail_response(message, code=500):
     response = {
         "success": False,
         "message": message,
     }
-    return JSONResponse(content=response, status_code=code)
+    return json.dumps(response, default=str).lower(), code, {'Content-Type': 'application/json'}
 
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=8000)

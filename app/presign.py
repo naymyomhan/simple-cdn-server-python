@@ -21,12 +21,11 @@ def insert_presign(cursor, connection, presign_key, file_name, file_path, file_t
         cursor.execute(insert_query, presign_data_with_datetime)
 
         data = {
-            "presign_key": presign_key,
-            "file_name": file_name,
-            "created_at": created_at.isoformat()
+            "key": presign_key,
+            "name": file_name,
         }
 
-        return success_response("Success",data)
+        return data
     except Exception as e:
         close_connection(cursor, connection)
         return fail_response(f"Presign failed: {str(e)}")
@@ -49,7 +48,7 @@ def is_valid_presign_key(cursor, presign_key):
     SELECT * FROM presigns WHERE presign_key = %s AND created_at >= %s AND created_at <= %s
     '''
 
-    cursor.execute(select_query, (presign_key, datetime.now() - timedelta(minutes=5), datetime.now()))
+    cursor.execute(select_query, (presign_key, datetime.now() - timedelta(minutes=50), datetime.now()))
     row = cursor.fetchone()
 
     if row:
@@ -60,7 +59,7 @@ def is_valid_presign_key(cursor, presign_key):
 
     
     
-def get_file_info_by_presign_key(cursor, presign_key):
+def getPresignInfo(cursor, presign_key):
     # select_query = 'SELECT file_name, file_path, file_type FROM presigns WHERE presign_key = %s'
 
     select_query = '''

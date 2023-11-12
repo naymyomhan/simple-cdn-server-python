@@ -14,7 +14,7 @@ def save_image(file_path, image_data):
     with open(file_path, "wb") as file:
         file.write(image_data)
 
-#Save Compressed Image (720)
+#Save Compressed Image (1200)
 def save_compress_image(original_path, compressed_path, size=(1200,628)):
     thumbnail = Image.open(original_path)
     thumbnail.thumbnail(size)
