@@ -48,6 +48,8 @@ def presign():
         request_data = request.get_json()
         file_extension = request_data["file_name"].strip().lower().split('.')[-1]
 
+        print('Presign >>> '+file_extension)
+
         if file_extension not in ALLOWED_EXTENSIONS:
             return fail_response("Don't allowed file extensions", 400)
 
@@ -132,6 +134,7 @@ def upload_binary():
     try:
         presign_key = request.form.get("presign_key")
         file = request.files['file']
+
         file_extension = os.path.splitext(file.filename)[1]
 
         #check if file exists

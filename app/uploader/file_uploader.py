@@ -56,6 +56,7 @@ def uploadFile(file,file_path,file_name,file_type):
         cdn_url = f"{os.environ.get('APP_URL')}/coderverse/{file_type}/{file_path}/{file_name}?ql=media"
         return {
             "url": cdn_url,
+            "name": file_name,
         }
     except Exception as e:
         return e
