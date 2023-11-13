@@ -1,12 +1,15 @@
+import os
+from dotenv import load_dotenv
 from mysql.connector import pooling
 from response import success_response,fail_response
 
+load_dotenv()
 # Set your database details
 db_config = {
-    'host': '127.0.0.1',
-    'user': 'root',
-    'password': "",
-    'database': 'cdn_server'
+    'host': os.environ.get('HOST'),
+    'user': os.environ.get('DB_USER'),
+    'password': os.environ.get('PASSWORD'),
+    'database': os.environ.get('DATABASE'),
 }
 
 # Create a connection pool
