@@ -44,9 +44,9 @@ def uploadImage(image_data,file_path,file_name):
     save_compress_image(original_path, compressed_path)
     save_thumbnail_image(original_path, thumbnail_path)
 
-    original_cdn_url = f"{os.environ.get('APP_URL')}/coderverse/Image/{file_path}/Original/{file_name}"
-    compressed_cdn_url = f"{os.environ.get('APP_URL')}/coderverse/Image/{file_path}/Compressed/{file_name}"
-    thumbnail_cdn_url = f"{os.environ.get('APP_URL')}/coderverse/Image/{file_path}/Compressed/{file_name}"
+    original_cdn_url = f"{os.environ.get('APP_URL')}/coderverse/image/{file_path}/Original/{file_name}"
+    compressed_cdn_url = f"{os.environ.get('APP_URL')}/coderverse/image/{file_path}/Compressed/{file_name}"
+    thumbnail_cdn_url = f"{os.environ.get('APP_URL')}/coderverse/image/{file_path}/Compressed/{file_name}"
 
     return {
         "original": original_cdn_url,

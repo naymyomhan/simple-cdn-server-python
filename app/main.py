@@ -99,7 +99,7 @@ def upload_base64():
         file_path = file_info['file_path']
         file_type = file_info['file_type']
 
-        if file_type == 'Image':
+        if file_type == 'image':
             response_data = uploadImage(file_data, file_path, file_name)
         elif file_type == 'Video':
             response_data = {}

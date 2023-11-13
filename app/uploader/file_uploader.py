@@ -46,7 +46,7 @@ def uploadFile(file,file_path,file_name,file_type):
 
         print(file_type)
         
-        if file_type == 'Image':
+        if file_type == 'image':
             saveMedia(original_file,file_upload_path,file_name)
             saveThumbnail(original_file,file_upload_path,file_name)
 

@@ -5,13 +5,13 @@ from constants import AUDIO_EXTENSIONS, IMAGE_EXTENSIONS, VIDEO_EXTENSIONS
 
 def checkFileType(extension):
     if extension in IMAGE_EXTENSIONS:
-        return 'Image'
+        return 'image'
     elif extension in VIDEO_EXTENSIONS:
-        return 'Video'
+        return 'video'
     elif extension in AUDIO_EXTENSIONS:
-        return 'Audio'
+        return 'audio'
     else:
-        return 'Unknown'
+        return 'unknow'
     
 
 #Create Folders 
