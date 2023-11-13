@@ -9,6 +9,6 @@ VIDEO_EXTENSIONS = {'mp4', 'avi', 'mkv', 'mov', 'wmv', 'flv', 'mpeg'}
 AUDIO_EXTENSIONS = {'mp3', 'wav', 'flac', 'aac','ogg','wma','aiff'}
 
 STORAGE_PATH = os.environ.get('STORAGE_PATH')
-IMAGE_PATH = f"{STORAGE_PATH}/Image"
-AUDIO_PATH = f"{STORAGE_PATH}/Audio"
+IMAGE_PATH = f"{STORAGE_PATH}/image"
+AUDIO_PATH = f"{STORAGE_PATH}/audio"
 FILE_PATH = f"{STORAGE_PATH}"

@@ -1,7 +1,5 @@
-ffmpeg
 Flask
 Pillow
 python-dotenv
 mysql-connector-python
-libmysqlclient-dev
 pydantic

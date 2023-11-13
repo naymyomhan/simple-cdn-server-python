@@ -1,5 +1,3 @@
-import mysql.connector
-from datetime import datetime,timedelta
 from mysql.connector import pooling
 from response import success_response,fail_response
 
@@ -40,8 +38,15 @@ def init_db(cursor):
     cursor.execute(create_presign_table_query)
 
 
-
-
+try:
+    connection = establish_connection()
+    cursor = connection.cursor(dictionary=True)
+    init_db(cursor)
+    print("Database initialized successfully.")
+except Exception as e:
+    print(f"Error initializing database: {e}")
+finally:
+    close_connection(cursor, connection)
 
 
 

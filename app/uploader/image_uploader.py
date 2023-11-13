@@ -1,5 +1,4 @@
 import os
-import uuid
 from PIL import Image
 from dotenv import load_dotenv
 from helper import createDirsIfNotExists

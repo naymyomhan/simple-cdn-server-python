@@ -1,8 +1,6 @@
 import os
 from PIL import Image
-import uuid
 from dotenv import load_dotenv
-from response import success_response
 from helper import createDirsIfNotExists
 
 from constants import FILE_PATH, STORAGE_PATH

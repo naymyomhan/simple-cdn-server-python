@@ -1,18 +1,12 @@
-import io
 import base64
 import os
 import secrets
-import time
-import re
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime
 from flask import Flask, request, jsonify, send_from_directory
-from PIL import Image
 from dotenv import load_dotenv
 from uploader.file_uploader import uploadFile
 from helper import checkFileType, ramdomFilename
-from request.image_upload_request import ImageUploadRequest
-from request.presign_request import PresignRequest
 from constants import ALLOWED_EXTENSIONS, STORAGE_PATH
 from uploader.image_uploader import uploadImage
 from presign import getPresignInfo, is_valid_presign_key, insert_presign
@@ -82,7 +76,7 @@ def presign():
 
 #UPLOAD FILE
 @app.route("/api/v1/file/upload/base64", methods=["POST"])
-def upload_file():
+def upload_base64():
     connection = establish_connection()
 
     try:
@@ -139,7 +133,7 @@ def upload_binary():
 
         #check if file exists
         if not file:
-            return fail_response("No file provided for binary upload", 400)
+            return fail_response("No file provided for upload", 400)
         
         #validate presign key
         if not is_valid_presign_key(cursor, presign_key):
