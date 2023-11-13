@@ -6,10 +6,10 @@ from response import success_response,fail_response
 load_dotenv()
 # Set your database details
 db_config = {
-    'host': os.environ.get('HOST'),
+    'host': os.environ.get('DB_HOST'),
     'user': os.environ.get('DB_USER'),
-    'password': os.environ.get('PASSWORD'),
-    'database': os.environ.get('DATABASE'),
+    'password': os.environ.get('DB_PASSWORD'),
+    'database': os.environ.get('DB_NAME'),
 }
 
 # Create a connection pool
