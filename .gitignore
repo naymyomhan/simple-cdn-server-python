@@ -1,3 +1,4 @@
 /storage/
 .env
 /app/__pycache__/
+/app/uploader/__pycache__/
