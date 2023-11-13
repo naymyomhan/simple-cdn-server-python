@@ -1,6 +1,6 @@
 # Open-CDN-Server
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-Coderverse-blue.svg)](LICENSE)
 
 Open-CDN-Server is a Python project that aims to provide a versatile and open-source Content Delivery Network (CDN) server solution.
 
