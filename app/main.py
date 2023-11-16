@@ -3,11 +3,12 @@ import os
 import secrets
 import uuid
 from datetime import datetime
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory,render_template
 from dotenv import load_dotenv
+from file_manager import get_files
 from uploader.file_uploader import uploadFile
 from helper import checkFileType, ramdomFilename
-from constants import ALLOWED_EXTENSIONS, STORAGE_PATH
+from constants import ALLOWED_EXTENSIONS, IMAGE_PATH, STORAGE_PATH
 from uploader.image_uploader import uploadImage
 from presign import getPresignInfo, is_valid_presign_key, insert_presign
 from response import success_response, fail_response
@@ -29,8 +30,27 @@ def before_request():
     if request.endpoint == 'get_image':
         return
     
+    if request.endpoint == 'index':
+        return
+    
+    if request.endpoint == 'get_file':
+        return
+    
     if not verify_api_key(api_key):
         return jsonify({"error": "unauthorized"}), 403
+
+
+
+
+
+@app.route('/file/manager/for/super/admin/tobey/logan')
+def index():
+    return render_template('index.html', files=get_files(IMAGE_PATH+"/profile/thumbnail"))
+
+@app.route('/files/<path:filename>')
+def get_file(filename):
+    return send_from_directory(IMAGE_PATH+"/profile/thumbnail", filename)
+
 
 
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>File Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Style for cropped 1:1 aspect ratio */
+        .cropped-image {
+            width: 100%;
+            height: 0;
+            padding-top: 100%;
+            /* 1:1 aspect ratio */
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .cropped-image img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* Crop images */
+        }
+
+        .cropped-image:hover {
+            transform: scale(1.1);
+            /* Scale image on hover */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* Soft box-shadow on hover */
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold my-8">File Manager</h1>
+        <div class="grid grid-cols-8 gap-4">
+            {% for file in files %}
+            <div class="cropped-image rounded-xl">
+                <a target="_blank" rel="noopener noreferrer" href="{{APP_URL}}/coderverse/image/profile/{{file}}"><img
+                        src="{{ url_for('get_file', filename=file) }}" alt="{{ file }}"></a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>
