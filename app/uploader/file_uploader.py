@@ -27,6 +27,12 @@ def saveThumbnail(original_file,file_upload_path,file_name):
     createDirsIfNotExists(compressed_path)
     compressAndSave(original_file,compressed_file,(300,300))
 
+def saveMicro(original_file,file_upload_path,file_name):
+    compressed_path = os.path.join(file_upload_path,"micro")
+    compressed_file = os.path.join(compressed_path,file_name)
+    createDirsIfNotExists(compressed_path)
+    compressAndSave(original_file,compressed_file,(100,100))
+
 
 #Upload File
 def uploadFile(file,file_path,file_name,file_type):
@@ -49,6 +55,7 @@ def uploadFile(file,file_path,file_name,file_type):
         if file_type == 'image':
             saveMedia(original_file,file_upload_path,file_name)
             saveThumbnail(original_file,file_upload_path,file_name)
+            saveMicro(original_file,file_upload_path,file_name)
 
 
         cdn_url = f"{os.environ.get('APP_URL')}/coderverse/{file_type}/{file_path}/{file_name}?ql=media"
