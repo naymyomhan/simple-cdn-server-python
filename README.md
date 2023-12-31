@@ -4,6 +4,10 @@
 
  A Python project that aims to provide a simple Content Delivery Network (CDN) server solution.
 
+ ## Disclaimer
+
+**Note:** This project was created for testing and small-scale projects. It may not adhere to best programming practices and was built primarily for quick utility rather than production-grade use. Please be aware that using this code in a serious or production environment may have unintended consequences.
+
 
 ## Prerequisites
 Before you begin, ensure you have the following installed on your machine:
