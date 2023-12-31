@@ -1,16 +1,45 @@
-# Open-CDN-Server
+# Simple-CDN-Server
 
-[![License](https://img.shields.io/badge/license-Coderverse-yellow.svg)](LICENSE)
+<a href="https://www.python.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/python-original.svg" alt="Python" height="50" /></a>  <a href="https://flask.palletsprojects.com/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/flask.png" alt="Flask" height="50" /></a>  
 
-Open-CDN-Server is a Python project that aims to provide a versatile and open-source Content Delivery Network (CDN) server solution.
+ A Python project that aims to provide a simple Content Delivery Network (CDN) server solution.
 
-## Features
+## Prerequisites
 
-- **Scalability:** Easily scalable to accommodate varying workloads.
-- **Customization:** Highly customizable to fit specific project requirements.
-- **Performance:** Optimized for delivering content with low latency and high throughput.
+Before you begin, ensure you have the following installed on your machine:
+- Python (preferably Python 3.x)
+- Git
 
-## Installation
+## Setting Up
 
-```bash
-pip install open-cdn-server
+1.Clone the repository:
+
+   ```bash
+   git clone https://github.com/naymyomhan/simple-cdn-server-python
+   ```
+
+2.Navigate into the project directory:
+
+   ```bash
+   cd simple-cdn-server-python
+   ```
+
+2.Create a virtual environment (recommended):
+
+   ```bash
+   python -m venv venv
+   ```
+
+2.Activate the virtual environment:
+
+   ```bash
+   source venv/bin/activate
+   ```
+
+2.Install project dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+
